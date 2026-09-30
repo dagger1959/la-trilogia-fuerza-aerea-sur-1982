@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testimonio de una Trilogía — II Escuadrón Aeromóvil de Guerra M-5 IAI Dagger</title>
+
+  <!-- Vincular el archivo manifest para instalar como App (PWA) -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Fuentes tipográficas académicas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Librería para generar código QR dinámico y descargable -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #111317;
+      --card-bg: #181b22;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent-gold: #c5a059;
+      --border-color: #2a2f3a;
+      --shadow-color: rgba(0, 0, 0, 0.6);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'EB Garamond', Georgia, serif;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .toolbar {
+      width: 100%;
+      max-width: 920px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 22px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .toolbar h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.05rem;
+      letter-spacing: 1.5px;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background-color: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--accent-gold);
+      padding: 8px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: var(--accent-gold);
+      color: #111317;
+    }
+
+    .sheet-container {
+      width: 100%;
+      max-width: 920px;
+      background-color: #16181f;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 12px 35px var(--shadow-color);
+      padding: 45px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .sheet-header {
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 22px;
+    }
+
+    .sheet-header .subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .sheet-header h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.75rem;
+      color: var(--accent-gold);
+      margin: 8px 0 4px 0;
+      font-weight: 700;
+    }
+
+    .sheet-header .trilogy-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      color: var(--text-main);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .sheet-header .location {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    /* GALERÍA DE IMÁGENES TESTIMONIALES */
+    .gallery-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .gallery-nav {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background-color: #111317;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active, .tab-btn:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      background-color: rgba(197, 160, 89, 0.08);
+    }
+
+    .image-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #0b0c0f;
+      border: 1px solid #222630;
+      border-radius: 4px;
+      padding: 20px;
+    }
+
+    .image-container img {
+      max-width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      border-radius: 2px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+      cursor: zoom-in;
+    }
+
+    .image-caption {
+      margin-top: 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* FICHA TÉCNICA DOCUMENTAL Y SECCIÓN QR */
+    .archive-card {
+      border: 1px solid var(--border-color);
+      background-color: rgba(255, 255, 255, 0.015);
+      padding: 28px;
+      border-radius: 4px;
+    }
+
+    .archive-card h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      color: var(--accent-gold);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+      margin-bottom: 22px;
+      letter-spacing: 1px;
+    }
+
+    .trilogy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .trilogy-box {
+      background-color: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--accent-gold);
+      padding: 14px 16px;
+      border-radius: 2px;
+    }
+
+    .trilogy-box .pillar-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-gold);
+      margin-bottom: 4px;
+    }
+
+    .trilogy-box h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .trilogy-box p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .meta-value {
+      font-size: 1.05rem;
+      color: var(--text-main);
+    }
+
+    .meta-value.highlight {
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    /* SECCIÓN CÓDIGO QR PARA DIFUSIÓN */
+    .qr-section {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      border-radius: 6px;
+    }
+
+    .qr-wrapper {
+      background-color: #ffffff;
+      padding: 12px;
+      border-radius: 6px;
+      border: 2px solid var(--accent-gold);
+      display: inline-block;
+    }
+
+    .qr-caption {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* FORMULARIO DE COMENTARIOS */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-control {
+      background-color: #0d0f14;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 10px 12px;
+      border-radius: 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-gold);
+    }
+
+    .sheet-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .visitor-counter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.92);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal img {
+      max-width: 95%;
+      max-height: 95vh;
+      object-fit: contain;
+    }
+
+    @media (max-width: 768px) {
+      .trilogy-grid { grid-template-columns: 1fr; }
+      .sheet-container { padding: 20px; }
+      .sheet-footer { flex-direction: column; text-align: center; }
+    }
+
+    @media print {
+      body { background-color: #ffffff !important; color: #000000 !important; padding: 0; }
+      .toolbar, .gallery-nav, .contact-card, .visitor-counter, .download-qr-btn { display: none !important; }
+      .sheet-container { border: none !important; box-shadow: none !important; background-color: #ffffff !important; color: #000000 !important; padding: 0 !important; max-width: 100% !important; }
+      .sheet-header h2, .archive-card h3, .trilogy-box .pillar-number, .meta-value.highlight { color: #111111 !important; }
+      .trilogy-box { background-color: #f8f9fa !important; border: 1px solid #cccccc !important; border-left: 3px solid #111111 !important; }
+      .trilogy-box h4, .meta-value { color: #222222 !important; }
+      .sheet-header .subtitle, .sheet-header .location, .meta-label, .image-caption, .sheet-footer { color: #555555 !important; }
+      .archive-card, .image-container { border: 1px solid #cccccc !important; background-color: #ffffff !important; }
+      .image-container img { box-shadow: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <h1>Archivo Histórico Digital</h1>
+    <div class="actions">
+      <!-- Abre el PDF completo en una nueva pestaña -->
+      <a class="btn" href="libro_trilogia.pdf" target="_blank">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+        </svg>
+        Ver Libro Completo (PDF)
+      </a>
+
+      <!-- Descarga directa del archivo PDF del libro -->
+      <a class="btn" href="libro_trilogia.pdf" download="Testimonio_de_una_Trilogia_Malvinas.pdf">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+          <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+        </svg>
+        Descargar Libro PDF
+      </a>
+
+      <!-- Imprime únicamente la lámina/ficha web de la pantalla -->
+      <button class="btn" onclick="window.print()">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+          <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zm7 4a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h10zm-1-1V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v1h8zM4 12a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1z"/>
+        </svg>
+        Imprimir Lámina Web
+      </button>
+    </div>
+  </div>
+
+  <main class="sheet-container">
+
+    <header class="sheet-header">
+      <p class="subtitle">Fuerza Aérea Sur — Probada en Combate</p>
+      <h2>II Escuadrón Aeromóvil de Guerra M-5 IAI Dagger «La Marinete»</h2>
+      <p class="trilogy-title">TESTIMONIO DE UNA TRILOGÍA OPERATIVA</p>
+      <p class="location">Base Aérea Militar San Julián — Provincia de Santa Cruz (Abril – Junio de 1982)</p>
+    </header>
+
+    <!-- GALERÍA DE REGISTRO HISTÓRICO (IMÁGENES EN LA RAIZ) -->
+    <section class="gallery-section">
+      <div class="gallery-nav">
+        <button class="tab-btn active" onclick="changeImage(this, 'la_trilogia_cabina.png', 'Integración en Plataforma: El Piloto en la escala de embarque del M-5 IAI Dagger C-432 asistido por el Personal Técnico de Tierra.')">Foto 1: La Trilogía en Cabina</button>
+        <button class="tab-btn" onclick="changeImage(this, 'linea_de_vuelo.jpeg', 'Línea de Vuelo en BAM San Julián: Escuadrilla M-5 Dagger alineada y personal de tierra de diferentes especialidades al atardecer.')">Foto 2: Línea de Vuelo</button>
+        <button class="tab-btn" onclick="changeImage(this, 'panuelo_insignias.jpg', 'Pieza de Honor de Colección: Pañuelo de combate, portanombre y distintivo «Probo su valor en combate».')">Foto 3: Pañuelo e Insignias</button>
+        <button class="tab-btn" onclick="changeImage(this, 'tapa_libro.jpg', 'Obra Histórica: «Testimonio de una Trilogía – Guerra de Malvinas» del PC FAA VGM José Luis Martínez.')">Foto 4: Edición de la Obra</button>
+      </div>
+
+      <div class="image-container">
+        <img id="main-image" src="la_trilogia_cabina.png" alt="Registro fotográfico de la Trilogía Operativa" onerror="handleImageError(this)" onclick="openModal()">
+        <p id="image-caption" class="image-caption">Integración en Plataforma: El Piloto en la escala de embarque del avion M-5 IAI Dagger C-432 asistido por el Personal Técnico de Tierra.</p>
+      </div>
+    </section>
+
+    <!-- FICHA TÉCNICA DOCUMENTAL -->
+    <section class="archive-card">
+      <h3>Registro Documental de la Trilogía Operativa</h3>
+
+      <div class="trilogy-grid">
+        <div class="trilogy-box">
+          <p class="pillar-number">Componente I</p>
+          <h4>El Avión</h4>
+          <p>Sistema de Armas M-5 IAI Dagger (C-432 / C-421). Vector supersónico de ataque de la Fuerza Aérea Argentina.</p>
+        </div>
+
+        <div class="trilogy-box">
+          <p class="pillar-number">Componente II</p>
+          <h4>Personal de Tierra</h4>
+          <p>Mantenimiento, técnico, armero, mecánica, electrónica, operativos, logísticos y de seguridad al pie del avión en la BAM San Julián.</p>
+        </div>
+
+        <div class="trilogy-box">
+          <p class="pillar-number">Componente III</p>
+          <h4>El Piloto</h4>
+          <p>Pilotos de combate del II Escuadrón Aeromóvil de Guerra «La Marinete» ejecutores de las misiones de ataque.</p>
+        </div>
+      </div>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Unidad de Pertenencia</span>
+          <span class="meta-value highlight">II Escuadrón Aeromóvil de Guerra M-5 IAI Dagger</span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Asiento Operativo</span>
+          <span class="meta-value">Base Aérea Militar San Julián (B.A.M. SJ)</span>
+        </div>
+
+        <div class="meta-item">
+          <span class="meta-label">Acervo y Colección</span>
+          <span class="meta-value">Archivo Histórico P.Civil FAA VGM José Luis Martínez</span>
+        </div>
+      </div>
+
+      <!-- CÓDIGO QR PARA AFICHES E IMPRESIÓN -->
+      <div class="qr-section">
+        <div class="qr-wrapper">
+          <div id="qrcode"></div>
+        </div>
+        <p class="qr-caption">Escanee este código QR para acceder a la aplicación web del proyecto</p>
+        <button class="btn download-qr-btn" onclick="downloadQR()">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+          </svg>
+          Descargar Imagen QR para Afiche
+        </button>
+      </div>
+    </section>
+
+    <!-- FORMULARIO DE COMENTARIOS Y CONTACTO -->
+    <section class="archive-card contact-card">
+      <h3>Enviar Comentario o Testimonio</h3>
+      <form class="contact-form" action="https://formspree.io/f/mqakozgq" method="POST">
+        <div class="form-group">
+          <label for="nombre">Nombre / Nombre y Apellido / Rango o Unidad:</label>
+          <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Ej. VGM / Lector" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Tu Correo Electrónico:</label>
+          <input class="form-control" type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Mensaje / Comentario sobre la Obra:</label>
+          <textarea class="form-control" id="mensaje" name="mensaje" rows="4" placeholder="Escribe aquí tu comentario o testimonio histórico..." required></textarea>
+        </div>
+        <button class="btn" type="submit" style="align-self: flex-start;">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.138L2.083 7.5l9.265-3.805 2.783-1.12Z"/>
+          </svg>
+          Enviar Comentario
+        </button>
+      </form>
+    </section>
+
+    <footer class="sheet-footer">
+      <span>Con fidelidad y Honor — B.A.M. San Julián</span>
+      
+      <!-- Contador de Visitas Badge -->
+      <div class="visitor-counter">
+        <span>Lectores / Visitas:</span>
+        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fdagger1959.github.io%2Fla-trilogia-fuerza-aerea-sur-1982%2F&count_bg=%23C5A059&title_bg=%232A2F3A&icon=&icon_color=%23E7E7E7&title=Visitas&edge_flat=false" alt="Contador de Visitas" />
+      </div>
+
+      <span>Guerra de Malvinas (1982)</span>
+    </footer>
+
+  </main>
+
+  <div id="image-modal" class="modal" onclick="closeModal()">
+    <img id="modal-img" src="" alt="Ampliación de fotografía histórica">
+  </div>
+
+  <script>
+    // Generación del Código QR en pantalla al cargar la página
+    window.addEventListener('DOMContentLoaded', function() {
+      new QRCode(document.getElementById("qrcode"), {
+        text: window.location.href,
+        width: 160,
+        height: 160,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+      });
+    });
+
+    // Función para descargar la imagen del QR directamente a la computadora
+    function downloadQR() {
+      const qrImg = document.querySelector("#qrcode img");
+      const qrCanvas = document.querySelector("#qrcode canvas");
+      
+      let imageURI = "";
+      if (qrImg && qrImg.src) {
+        imageURI = qrImg.src;
+      } else if (qrCanvas) {
+        imageURI = qrCanvas.toDataURL("image/png");
+      }
+
+      if (imageURI) {
+        const link = document.createElement("a");
+        link.href = imageURI;
+        link.download = "QR_Testimonio_Trilogia_Malvinas.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        alert("El código QR se está generando, reintente en unos segundos.");
+      }
+    }
+
+    function changeImage(element, src, caption) {
+      const img = document.getElementById('main-image');
+      const cap = document.getElementById('image-caption');
+      img.src = src;
+      cap.innerText = caption;
+
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+    }
+
+    function handleImageError(img) {
+      img.src = 'https://images.unsplash.com/photo-1519074069444-1ba4effa69b6?q=80&w=800&auto=format&fit=crop';
+    }
+
+    function openModal() {
+      const img = document.getElementById('main-image');
+      const modal = document.getElementById('image-modal');
+      const modalImg = document.getElementById('modal-img');
+      modal.style.display = 'flex';
+      modalImg.src = img.src;
+    }
+
+    function closeModal() {
+      document.getElementById('image-modal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

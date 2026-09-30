@@ -1,0 +1,16 @@
+{
+  "short_name": "Trilogía Malvinas",
+  "name": "Testimonio de una Trilogía - Guerra de Malvinas",
+  "icons": [
+    {
+      "src": "imagenes/tapa_libro.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#111317",
+  "theme_color": "#c5a059",
+  "display": "standalone",
+  "orientation": "portrait"
+}
